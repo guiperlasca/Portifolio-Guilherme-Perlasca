@@ -1,5 +1,3 @@
-/* ===== MATRIX PORTFOLIO - GUILHERME PERLASCA ===== */
-/* Modern, Minimalist, Creative & Innovative */
 
 /* ===== MATRIX RAIN ANIMATION ===== */
 class MatrixRain {
@@ -295,7 +293,7 @@ class ContactLinks {
 
 /* ===== INITIALIZE ALL COMPONENTS ===== */
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Initializing Matrix Portfolio...');
+    console.log('🚀 Initializing Portfolio...');
 
     // Initialize all components
     new MatrixRain();

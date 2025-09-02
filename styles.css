@@ -202,7 +202,8 @@ body {
 .skills-track {
     display: flex;
     gap: var(--spacing-xxl);
-    animation: scroll 40s linear infinite;
+    /* ANIMAÇÃO MAIS RÁPIDA */
+    animation: scroll 25s linear infinite;
     width: fit-content;
 }
 
@@ -283,6 +284,8 @@ body {
     transition: var(--transition);
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .project-card::before {
@@ -332,6 +335,7 @@ body {
     color: var(--matrix-text);
     line-height: 1.6;
     margin-bottom: var(--spacing-lg);
+    flex-grow: 1;
 }
 
 .project-tech {
@@ -354,6 +358,7 @@ body {
 .project-links {
     display: flex;
     gap: var(--spacing-md);
+    margin-top: auto;
 }
 
 .project-link {
