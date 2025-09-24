@@ -223,6 +223,99 @@ class SkillsMarquee {
     }
 }
 
+/* ===== LANGUAGE TRANSLATION SYSTEM ===== */
+class LanguageTranslator {
+    constructor() {
+        this.currentLanguage = 'pt';
+        this.languageBtn = document.getElementById('language-btn');
+        this.langText = document.getElementById('lang-text');
+        this.init();
+    }
+
+    init() {
+        this.setupLanguageToggle();
+        this.loadSavedLanguage();
+    }
+
+    setupLanguageToggle() {
+        this.languageBtn.addEventListener('click', () => {
+            this.toggleLanguage();
+        });
+    }
+
+    loadSavedLanguage() {
+        const savedLang = localStorage.getItem('portfolio-language');
+        if (savedLang && (savedLang === 'pt' || savedLang === 'en')) {
+            this.currentLanguage = savedLang;
+            this.updateLanguage();
+        }
+    }
+
+    toggleLanguage() {
+        this.currentLanguage = this.currentLanguage === 'pt' ? 'en' : 'pt';
+        this.updateLanguage();
+        this.saveLanguage();
+    }
+
+    updateLanguage() {
+        // Update button text
+        this.langText.textContent = this.currentLanguage === 'pt' ? 'EN' : 'PT';
+        
+        // Update HTML lang attribute
+        document.documentElement.lang = this.currentLanguage === 'pt' ? 'pt-BR' : 'en-US';
+        
+        // Update page title
+        document.title = this.currentLanguage === 'pt' 
+            ? 'Guilherme Perlasca - Desenvolvedor Backend'
+            : 'Guilherme Perlasca - Backend Developer';
+        
+        // Update meta description
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+            metaDescription.content = this.currentLanguage === 'pt'
+                ? 'Portfólio de Guilherme Perlasca - Desenvolvedor Backend especializado em Java, Spring Boot, Python e tecnologias modernas'
+                : 'Guilherme Perlasca Portfolio - Backend Developer specialized in Java, Spring Boot, Python and modern technologies';
+        }
+
+        // Translate all elements with data attributes
+        this.translateElements();
+        
+        // Update CV download link
+        this.updateCVLink();
+    }
+
+    translateElements() {
+        const elementsToTranslate = document.querySelectorAll('[data-pt][data-en]');
+        
+        elementsToTranslate.forEach(element => {
+            const text = this.currentLanguage === 'pt' 
+                ? element.getAttribute('data-pt') 
+                : element.getAttribute('data-en');
+            
+            if (text) {
+                element.textContent = text;
+            }
+        });
+    }
+
+    updateCVLink() {
+        const cvLink = document.querySelector('.download-cv');
+        if (cvLink) {
+            const newHref = this.currentLanguage === 'pt' 
+                ? cvLink.getAttribute('data-pt-href')
+                : cvLink.getAttribute('data-en-href');
+            
+            if (newHref) {
+                cvLink.setAttribute('href', newHref);
+            }
+        }
+    }
+
+    saveLanguage() {
+        localStorage.setItem('portfolio-language', this.currentLanguage);
+    }
+}
+
 /* ===== CONTACT LINKS ANIMATION ===== */
 class ContactLinks {
     constructor() {
@@ -267,7 +360,13 @@ class ContactLinks {
         if (button.dataset.downloading === 'true') return;
         
         button.dataset.downloading = 'true';
-        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Downloading...</span>';
+        
+        // Get current language for appropriate loading text
+        const currentLang = document.documentElement.lang.startsWith('pt') ? 'pt' : 'en';
+        const loadingText = currentLang === 'pt' ? 'Baixando...' : 'Downloading...';
+        const successText = currentLang === 'pt' ? 'Baixado!' : 'Downloaded!';
+        
+        button.innerHTML = `<i class="fas fa-spinner fa-spin"></i><span>${loadingText}</span>`;
         button.style.pointerEvents = 'none';
 
         // Cria um link temporário para iniciar o download real do arquivo
@@ -280,7 +379,7 @@ class ContactLinks {
 
         // Simula o tempo de "download" para o efeito visual
         setTimeout(() => {
-            button.innerHTML = '<i class="fas fa-check"></i><span>Downloaded!</span>';
+            button.innerHTML = `<i class="fas fa-check"></i><span>${successText}</span>`;
 
             setTimeout(() => {
                 button.innerHTML = originalText;
@@ -302,6 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
     new ProjectCards();
     new SkillsMarquee();
     new ContactLinks();
+    new LanguageTranslator();
 
     console.log('✅ Matrix Portfolio Ready!');
 });
