@@ -456,6 +456,44 @@ body {
     background: rgba(0, 255, 65, 0.05);
 }
 
+/* ===== HIGHLIGHTED PROJECT ===== */
+.highlighted-project {
+    border-color: rgba(0, 255, 65, 0.5);
+    background: linear-gradient(135deg, rgba(0, 255, 65, 0.05) 0%, rgba(0, 0, 0, 0.4) 100%);
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
+}
+
+.highlighted-project:hover {
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
+    transform: translateY(-5px) scale(1.02);
+    border-color: var(--matrix-green);
+}
+
+.highlighted-project::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top right, rgba(0, 255, 65, 0.1), transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.project-logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(0, 255, 65, 0.5));
+    transition: var(--transition);
+}
+
+.highlighted-project:hover .project-logo {
+    filter: drop-shadow(0 0 8px var(--matrix-green));
+    transform: scale(1.1);
+}
+
 /* ===== CONTACT SECTION ===== */
 .contact-section {
     padding: var(--spacing-xxl) var(--spacing-xl);
